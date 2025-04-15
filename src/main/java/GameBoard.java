@@ -1,8 +1,8 @@
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import java.util.function.Consumer;
 
 public class GameBoard {
@@ -11,12 +11,11 @@ public class GameBoard {
 
     private Pane root = new Pane();
     private Circle[][] circles = new Circle[ROWS][COLS];
-    private boolean myTurn;  // indicates if it's this client's turn
+    private boolean myTurn;  // true if it is this client's turn.
     private String playerId;
     private Consumer<Integer> moveSender;
+    private boolean gameOver = false;
 
-    // Constructor – set initial turn based on player identity:
-    // For example, you might let PLAYER1 start first.
     public GameBoard(String playerId, Consumer<Integer> moveSender) {
         this.playerId = playerId;
         this.moveSender = moveSender;
@@ -27,7 +26,13 @@ public class GameBoard {
         for (int col = 0; col < COLS; col++) {
             final int column = col;
             VBox columnBox = new VBox();
-            columnBox.setOnMouseClicked(e -> handleMove(column));
+            // --- UPDATED: Do not update board immediately on click ---
+            columnBox.setOnMouseClicked(e -> {
+                if (myTurn && !gameOver) {
+                    // Instead of placing the piece locally, simply send the move.
+                    moveSender.accept(column);
+                }
+            });
             for (int row = 0; row < ROWS; row++) {
                 Circle circle = new Circle(40);
                 circle.setFill(Color.WHITE);
@@ -44,39 +49,39 @@ public class GameBoard {
         return root;
     }
 
-    // When the user makes a move by clicking on a column:
-    private void handleMove(int col) {
-        if (!myTurn) return;
-        // Instead of setting the circle fill directly, delegate to placePiece.
+    /**
+     * Updates the board UI by placing a piece in the specified column.
+     * This method is called when processing a GameEvent from the server.
+     * @param col The column where the piece should be placed.
+     * @param isMyMove true if this move is from the local player; false if from opponent.
+     */
+    public void placePiece(int col, boolean isMyMove) {
+        Color pieceColor = (isMyMove ? Color.RED : Color.YELLOW);
+        // Place the piece in the lowest available row.
         for (int row = ROWS - 1; row >= 0; row--) {
-            if (circles[row][col].getFill() == Color.WHITE) {
-                placePiece(col, true);  // local move, isMyMove is true.
-                moveSender.accept(col);
+            if (circles[row][col].getFill().equals(Color.WHITE)) {
+                circles[row][col].setFill(pieceColor);
+                // Toggle turn only if the game is not over.
+                if (!gameOver) {
+                    myTurn = !isMyMove;
+                }
                 break;
             }
         }
     }
 
     /**
-     * Place a piece on the board.
-     * @param col the column in which to place the piece.
-     * @param isMyMove true if the move is made locally; false if received from opponent.
+     * Displays a win/lose message.
      */
-    public void placePiece(int col, boolean isMyMove) {
-        // Determine the piece color: local moves are red, remote moves are yellow.
-        Color pieceColor = (isMyMove ? Color.RED : Color.YELLOW);
-        for (int row = ROWS - 1; row >= 0; row--) {
-            if (circles[row][col].getFill() == Color.WHITE) {
-                circles[row][col].setFill(pieceColor);
-                // Update turn: if you just made a move, it becomes false.
-                // If an opponent's move was received, it's now your turn.
-                myTurn = !isMyMove;
-                break;
-            }
-        }
+    public void showWinMessage(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
-    // Optional: For debugging, you can expose the current turn.
+    // Optional: Provide current turn status for external use.
     public boolean isMyTurn() {
         return myTurn;
     }
