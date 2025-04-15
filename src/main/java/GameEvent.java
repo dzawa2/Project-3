@@ -8,14 +8,14 @@ public class GameEvent implements Serializable {
     private String movingPlayer;  // For MOVE events.
     private String winningPlayer; // For WIN events.
 
-    // Constructor for MOVE event.
+    // Constructor for a MOVE event.
     public GameEvent(Type type, int column, String movingPlayer) {
         this.type = type;
         this.column = column;
         this.movingPlayer = movingPlayer;
     }
 
-    // Constructor for WIN event.
+    // Constructor for a WIN event.
     public GameEvent(Type type, String winningPlayer) {
         this.type = type;
         this.winningPlayer = winningPlayer;
