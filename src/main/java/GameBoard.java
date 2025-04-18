@@ -1,102 +1,83 @@
+// GameBoard.java
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+
 import java.util.function.Consumer;
 
 public class GameBoard {
-    private static final int ROWS = 6;
-    private static final int COLS = 7;
+    private static final int ROWS = 6, COLS = 7;
+    private final StackPane root = new StackPane();
+    private final GridPane grid = new GridPane();
+    private final Circle[][] circles = new Circle[ROWS][COLS];
 
-    // We'll use a StackPane so we can center the GridPane
-    private StackPane root = new StackPane();
-    private GridPane grid = new GridPane();
-
-    private Circle[][] circles = new Circle[ROWS][COLS];
     private boolean myTurn;
-    private String playerId;
-    private Consumer<Integer> moveSender;
     private boolean gameOver = false;
+    private final String playerId;
+    private final Consumer<Integer> moveSender;
 
-    public GameBoard(String playerId, Consumer<Integer> moveSender) {
-        this.playerId = playerId;
+    private Image myImage, oppImage;
+
+    public GameBoard(String playerId,
+                     Consumer<Integer> moveSender,
+                     Image myImage,
+                     Image oppImage) {
+        this.playerId   = playerId;
         this.moveSender = moveSender;
-        this.myTurn = playerId.equals("PLAYER1");
+        this.myImage    = myImage;
+        this.oppImage   = oppImage;
+        this.myTurn     = playerId.equals("PLAYER1");
 
-        // Make the StackPane itself center its child
         root.setAlignment(Pos.CENTER);
-
-        // Ensure the GridPane is centered within the StackPane
         StackPane.setAlignment(grid, Pos.CENTER);
-
-        // Have the GridPane center its children as well
         grid.setAlignment(Pos.CENTER);
 
-        // (Optional) Add spacing if you like
-        // grid.setHgap(5);
-        // grid.setVgap(5);
-
-        // Populate the GridPane
-        for (int col = 0; col < COLS; col++) {
-            final int column = col;
-            VBox columnBox = new VBox();
-            // Center each column of circles
-            columnBox.setAlignment(Pos.CENTER);
-
-            // On click, only send the move to the server (don't place piece locally)
-            columnBox.setOnMouseClicked(e -> {
-                if (myTurn && !gameOver) {
-                    moveSender.accept(column);
-                }
+        for (int c = 0; c < COLS; c++) {
+            final int col = c;
+            VBox colBox = new VBox();
+            colBox.setAlignment(Pos.CENTER);
+            colBox.setOnMouseClicked(e -> {
+                if (myTurn && !gameOver) moveSender.accept(col);
             });
-
-            // Fill this column with circle "cells"
-            for (int row = 0; row < ROWS; row++) {
-                Circle circle = new Circle(40);
-                circle.setFill(Color.WHITE);
-                circle.setStroke(Color.BLACK);
-                circles[row][col] = circle;
-                columnBox.getChildren().add(circle);
+            for (int r = 0; r < ROWS; r++) {
+                Circle circ = new Circle(40, Color.WHITE);
+                circ.setStroke(Color.BLACK);
+                circles[r][c] = circ;
+                colBox.getChildren().add(circ);
             }
-            grid.add(columnBox, col, 0);
+            grid.add(colBox, c, 0);
         }
-
-        // Add the GridPane to the StackPane
         root.getChildren().add(grid);
     }
 
-    public StackPane getRoot() {
-        return root;
+    public StackPane getRoot() { return root; }
+
+    /** Update both players’ images on a SELECT event */
+    public void updateImages(Image myImg, Image oppImg) {
+        this.myImage  = myImg;
+        this.oppImage = oppImg;
     }
 
-    /**
-     * Places a piece in the given column when notified by the server.
-     * @param col the column index
-     * @param isMyMove true if local player’s move, false if opponent’s
-     */
     public void placePiece(int col, boolean isMyMove) {
-        Color pieceColor = isMyMove ? Color.RED : Color.YELLOW;
-        for (int row = ROWS - 1; row >= 0; row--) {
-            if (circles[row][col].getFill().equals(Color.WHITE)) {
-                circles[row][col].setFill(pieceColor);
-                if (!gameOver) {
-                    myTurn = !isMyMove;
-                }
+        ImagePattern pat = new ImagePattern(isMyMove ? myImage : oppImage);
+        for (int r = ROWS - 1; r >= 0; r--) {
+            if (circles[r][col].getFill().equals(Color.WHITE)) {
+                circles[r][col].setFill(pat);
+                if (!gameOver) myTurn = !isMyMove;
                 break;
             }
         }
     }
 
-    /**
-     * Displays a dialog with a win/lose message.
-     */
-    public void showWinMessage(String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Game Over");
+    public void showWinMessage(String msg) {
+        gameOver = true;
+        Alert alert = new Alert(AlertType.INFORMATION, msg);
         alert.setHeaderText(null);
-        alert.setContentText(message);
         alert.showAndWait();
     }
 }

@@ -1,3 +1,4 @@
+// Server.java
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -9,113 +10,103 @@ public class Server {
     private static final int ROWS = 6;
     private static final int COLS = 7;
 
-    // Board state: 0 means empty; 1 means PLAYER1; 2 means PLAYER2.
     private int[][] board = new int[ROWS][COLS];
-
-    // Indicates whose turn it is: 1 for PLAYER1, 2 for PLAYER2.
-    private int currentTurn = 1;
-
-    // List of client handlers.
-    private List<ClientHandler> clients = new ArrayList<>();
+    private int currentTurn = 1;  // 1 = PLAYER1, 2 = PLAYER2
+    private final List<ClientHandler> clients = new ArrayList<>();
 
     public void startServer() throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
         System.out.println("Server started. Waiting for players...");
 
-        // Initialize board to empty.
+        // Block until two clients connect
+        Socket socket1 = serverSocket.accept();
+        System.out.println("Player 1 connected.");
+        Socket socket2 = serverSocket.accept();
+        System.out.println("Player 2 connected.");
+
+        // Create handlers & register
+        ClientHandler handler1 = new ClientHandler(socket1, 1);
+        ClientHandler handler2 = new ClientHandler(socket2, 2);
+        clients.add(handler1);
+        clients.add(handler2);
+
+        // Initialize board
         for (int i = 0; i < ROWS; i++) {
             Arrays.fill(board[i], 0);
         }
 
-        // Accept two clients.
-        while (clients.size() < 2) {
-            Socket socket = serverSocket.accept();
-            ClientHandler handler = new ClientHandler(socket, clients.size() + 1);
-            clients.add(handler);
-            handler.start();
-        }
+        // Start listening threads
+        handler1.start();
+        handler2.start();
 
         System.out.println("Both players connected. Game starts!");
     }
 
-    // Synchronized method to process a move if it is that player's turn.
     private synchronized void processMove(int playerNumber, int column) throws IOException {
-        // Only process move if it is that player's turn.
         if (playerNumber != currentTurn) return;
+
         int row = getAvailableRow(column);
-        if (row == -1) {
-            // Column is full; could notify the player (omitted for brevity).
-            return;
-        }
+        if (row == -1) return;  // column full
+
         board[row][column] = playerNumber;
         String playerName = (playerNumber == 1 ? "PLAYER1" : "PLAYER2");
         boolean win = checkWin(row, column, playerNumber);
+
         GameEvent event;
         if (win) {
             event = new GameEvent(GameEvent.Type.WIN, playerName);
         } else {
             event = new GameEvent(GameEvent.Type.MOVE, column, playerName);
-            // Switch the turn.
-            currentTurn = (currentTurn == 1) ? 2 : 1;
+            currentTurn = (currentTurn == 1 ? 2 : 1);
         }
         broadcast(event);
     }
 
-    // Returns the lowest available row for the specified column or -1 if full.
     private int getAvailableRow(int col) {
-        for (int row = ROWS - 1; row >= 0; row--) {
-            if (board[row][col] == 0) return row;
+        for (int r = ROWS - 1; r >= 0; r--) {
+            if (board[r][col] == 0) return r;
         }
         return -1;
     }
 
-    // Checks win in all four directions.
     private boolean checkWin(int row, int col, int player) {
-        if (countConnected(row, col, 0, 1, player) + countConnected(row, col, 0, -1, player) - 1 >= 4)
-            return true;
-        if (countConnected(row, col, 1, 0, player) + countConnected(row, col, -1, 0, player) - 1 >= 4)
-            return true;
-        if (countConnected(row, col, 1, 1, player) + countConnected(row, col, -1, -1, player) - 1 >= 4)
-            return true;
-        if (countConnected(row, col, 1, -1, player) + countConnected(row, col, -1, 1, player) - 1 >= 4)
-            return true;
+        if (countConnected(row, col, 0, 1, player) + countConnected(row, col, 0, -1, player) - 1 >= 4) return true;
+        if (countConnected(row, col, 1, 0, player) + countConnected(row, col, -1, 0, player) - 1 >= 4) return true;
+        if (countConnected(row, col, 1, 1, player) + countConnected(row, col, -1, -1, player) - 1 >= 4) return true;
+        if (countConnected(row, col, 1, -1, player) + countConnected(row, col, -1, 1, player) - 1 >= 4) return true;
         return false;
     }
 
-    // Helper method to count consecutive pieces of the same player.
-    private int countConnected(int row, int col, int deltaRow, int deltaCol, int player) {
-        int count = 0;
-        int r = row, c = col;
+    private int countConnected(int row, int col, int dRow, int dCol, int player) {
+        int count = 0, r = row, c = col;
         while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] == player) {
             count++;
-            r += deltaRow;
-            c += deltaCol;
+            r += dRow;
+            c += dCol;
         }
         return count;
     }
 
-    // Broadcasts a message (GameEvent or ChatMessage) to all clients.
     private void broadcast(Object message) throws IOException {
-        for (ClientHandler client : clients) {
-            client.send(message);
+        for (ClientHandler c : clients) {
+            c.send(message);
         }
     }
 
-    // Inner class to handle each client connection.
     private class ClientHandler extends Thread {
-        private Socket socket;
-        private ObjectInputStream in;
-        private ObjectOutputStream out;
-        private int playerNumber;  // 1 or 2.
-        private String playerName; // "PLAYER1" or "PLAYER2".
+        private final Socket socket;
+        private final ObjectOutputStream out;
+        private final ObjectInputStream in;
+        private final int playerNumber;
+        private final String playerName;
 
         public ClientHandler(Socket socket, int playerNumber) throws IOException {
             this.socket = socket;
             this.playerNumber = playerNumber;
             this.playerName = (playerNumber == 1 ? "PLAYER1" : "PLAYER2");
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-            // Send the player identifier to the client.
+            this.out = new ObjectOutputStream(socket.getOutputStream());
+            this.in  = new ObjectInputStream(socket.getInputStream());
+            // send identifier
             out.writeObject(playerName);
             out.flush();
         }
@@ -130,17 +121,22 @@ public class Server {
             try {
                 while (true) {
                     Object obj = in.readObject();
-                    synchronized(Server.this) {
-                        if (obj instanceof Integer) {
-                            // A move message.
-                            int column = (Integer) obj;
-                            if (playerNumber == currentTurn) {
-                                processMove(playerNumber, column);
+                    synchronized (Server.this) {
+                        if (obj instanceof GameEvent) {
+                            GameEvent ge = (GameEvent) obj;
+                            if (ge.getType() == GameEvent.Type.SELECT) {
+                                // broadcast selection to both
+                                broadcast(ge);
+                            } else if (ge.getType() == GameEvent.Type.MOVE) {
+                                processMove(playerNumber, ge.getColumn());
+                            } else if (ge.getType() == GameEvent.Type.WIN) {
+                                broadcast(ge);
                             }
+                        } else if (obj instanceof Integer) {
+                            // legacy move
+                            processMove(playerNumber, (Integer) obj);
                         } else if (obj instanceof ChatMessage) {
-                            // A chat message; broadcast it immediately.
-                            ChatMessage chat = (ChatMessage) obj;
-                            broadcast(chat);
+                            broadcast(obj);
                         }
                     }
                 }
@@ -150,11 +146,10 @@ public class Server {
         }
     }
 
-    // Main method to start the server.
     public static void main(String[] args) {
         try {
             new Server().startServer();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
