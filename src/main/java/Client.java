@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,7 +15,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class Client extends Application {
     private Stage primaryStage;
@@ -33,9 +31,16 @@ public class Client extends Application {
 
     private Image myPieceImage, oppPieceImage;
 
-    // galaxy background
     private final Image backgroundImage =
             new Image(getClass().getResourceAsStream("/planets/galaxy.jpg"));
+    private final Image titleImage =
+            new Image(getClass().getResourceAsStream("/planets/MAIN-TITLE.png"));
+
+    // button art now in /buttons
+    private final Image playImg        = new Image(getClass().getResourceAsStream("/buttons/play.png"));
+    private final Image selectImg      = new Image(getClass().getResourceAsStream("/buttons/select-player.png"));
+    private final Image backImg        = new Image(getClass().getResourceAsStream("/buttons/back.png"));
+    private final Image quitImg        = new Image(getClass().getResourceAsStream("/buttons/quit.png"));
 
     @Override
     public void start(Stage stage) {
@@ -46,10 +51,16 @@ public class Client extends Application {
     }
 
     private Scene createMenuScene() {
-        Button playBtn = new Button("Play");
-        Button selBtn  = new Button("Select Player");
+        ImageView titleView = new ImageView(titleImage);
+        titleView.setPreserveRatio(true);
+        titleView.setFitWidth(600);
 
-        playBtn.setOnAction(e -> {
+        // PLAY button
+        ImageView playBtn = new ImageView(playImg);
+        playBtn.setCursor(Cursor.HAND);
+        playBtn.setFitWidth(200);
+        playBtn.setPreserveRatio(true);
+        playBtn.setOnMouseClicked(e -> {
             try {
                 primaryStage.setScene(createGameScene());
                 primaryStage.setTitle("Connect Four – " + playerId);
@@ -57,14 +68,20 @@ public class Client extends Application {
                 ex.printStackTrace();
             }
         });
-        selBtn.setOnAction(e -> {
+
+        // SELECT PLAYER button
+        ImageView selBtn = new ImageView(selectImg);
+        selBtn.setCursor(Cursor.HAND);
+        selBtn.setFitWidth(200);
+        selBtn.setPreserveRatio(true);
+        selBtn.setOnMouseClicked(e -> {
             primaryStage.setScene(createSelectPlayerScene());
             primaryStage.setTitle("Select Player");
         });
 
-        VBox menu = new VBox(20, playBtn, selBtn);
+        VBox menu = new VBox(30, titleView, playBtn, selBtn);
         menu.setAlignment(Pos.CENTER);
-        menu.setPadding(new Insets(50));
+        menu.setPadding(new Insets(40));
         menu.setBackground(new Background(new BackgroundImage(
                 backgroundImage,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
@@ -88,35 +105,52 @@ public class Client extends Application {
         );
 
         GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20));
+        grid.setHgap(20);
+        grid.setVgap(20);
+        grid.setPadding(new Insets(30));
+        grid.setAlignment(Pos.CENTER);
 
         int col=0, row=0;
-        for (var e : planets.entrySet()) {
-            String path = e.getValue();
-            Image thumbImg = new Image(
-                    getClass().getResourceAsStream(path),
-                    100,100,true,true
+        for (var entry : planets.entrySet()) {
+            String name = entry.getKey();
+            String iconPath  = entry.getValue();
+            String titlePath = "/planets/" + name.toLowerCase() + "-title.png";
+
+            ImageView iconView = new ImageView(
+                    new Image(getClass().getResourceAsStream(iconPath),100,100,true,true)
             );
-            ImageView thumb = new ImageView(thumbImg);
-            thumb.setCursor(Cursor.HAND);
-            thumb.setOnMouseClicked(ev -> {
-                myPlanetPath = path;
+            iconView.setCursor(Cursor.HAND);
+
+            ImageView titleView = new ImageView(
+                    new Image(getClass().getResourceAsStream(titlePath))
+            );
+            titleView.setFitWidth(100);
+            titleView.setPreserveRatio(true);
+
+            VBox cell = new VBox(5, iconView, titleView);
+            cell.setAlignment(Pos.CENTER);
+            cell.setCursor(Cursor.HAND);
+            cell.setOnMouseClicked(e -> {
+                myPlanetPath = iconPath;
                 primaryStage.setScene(createMenuScene());
                 primaryStage.setTitle("Connect Four");
             });
-            grid.add(thumb, col, row);
+
+            grid.add(cell, col, row);
             if (++col==4) { col=0; row++; }
         }
 
-        Button back = new Button("← Back");
-        back.setOnAction(e -> {
+        // BACK button
+        ImageView backBtn = new ImageView(backImg);
+        backBtn.setCursor(Cursor.HAND);
+        backBtn.setFitWidth(200);
+        backBtn.setPreserveRatio(true);
+        backBtn.setOnMouseClicked(e -> {
             primaryStage.setScene(createMenuScene());
             primaryStage.setTitle("Connect Four");
         });
 
-        VBox root = new VBox(10, grid, back);
+        VBox root = new VBox(20, grid, backBtn);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
         root.setBackground(new Background(new BackgroundImage(
@@ -130,20 +164,13 @@ public class Client extends Application {
     }
 
     private Scene createGameScene() throws Exception {
-        Socket sock = new Socket("localhost", 5555);
+        Socket sock = new Socket("localhost",5555);
         out = new ObjectOutputStream(sock.getOutputStream());
         in  = new ObjectInputStream(sock.getInputStream());
         playerId = (String)in.readObject();
 
-        // load planet images + notify server
         myPieceImage  = new Image(getClass().getResourceAsStream(myPlanetPath));
         oppPieceImage = new Image(getClass().getResourceAsStream(oppPlanetPath));
-        out.writeObject(new GameEvent(
-                GameEvent.Type.SELECT,
-                myPlanetPath,
-                playerId
-        ));
-        out.flush();
 
         board = new GameBoard(
                 playerId, this::sendMove,
@@ -156,10 +183,8 @@ public class Client extends Application {
 
         chatInput = new TextField();
         chatInput.setPromptText("Enter your message...");
-        Button send = new Button("Send");
-        send.setOnAction(e -> sendChat());
 
-        HBox chatRow = new HBox(10, chatInput, send);
+        HBox chatRow = new HBox(10, chatInput);
         HBox.setHgrow(chatInput, Priority.ALWAYS);
         chatRow.setPadding(new Insets(10));
 
@@ -176,17 +201,23 @@ public class Client extends Application {
                 new BackgroundSize(1,1,true,true,false,true)
         )));
 
-        // listen for server
         new Thread(() -> {
             try {
                 while (true) {
-                    Object o = in.readObject();
-                    Platform.runLater(() -> handleServerMessage(o));
+                    Object msg = in.readObject();
+                    Platform.runLater(() -> handleServerMessage(msg));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }).start();
+
+        out.writeObject(new GameEvent(
+                GameEvent.Type.SELECT,
+                myPlanetPath,
+                playerId
+        ));
+        out.flush();
 
         return new Scene(root, 700, 800);
     }
@@ -195,18 +226,18 @@ public class Client extends Application {
         if (obj instanceof GameEvent ge) {
             switch (ge.getType()) {
                 case SELECT -> {
-                    String path = ge.getPlanetPath();
-                    Image img = new Image(getClass().getResourceAsStream(path));
+                    Image chosen = new Image(
+                            getClass().getResourceAsStream(ge.getPlanetPath())
+                    );
                     if (ge.getSelectingPlayer().equals(playerId)) {
-                        myPieceImage = img;
+                        myPieceImage = chosen;
                     } else {
-                        oppPieceImage = img;
+                        oppPieceImage = chosen;
                     }
                     board.updateImages(myPieceImage, oppPieceImage);
                 }
                 case MOVE -> {
-                    boolean mine = ge.getMovingPlayer().equals(playerId);
-                    board.placePiece(ge.getColumn(), mine);
+                    board.placePiece(ge.getColumn(), ge.getMovingPlayer());
                 }
                 case WIN -> {
                     boolean iWon = ge.getWinningPlayer().equals(playerId);
@@ -218,19 +249,21 @@ public class Client extends Application {
         }
     }
 
-    /** End‐scene uses scaled ImageView plus a Quit button */
     private Scene createEndScene(boolean won) {
         String path = won ? "/win-lose/win.png" : "/win-lose/lose.png";
-        Image endImg = new Image(getClass().getResourceAsStream(path));
-        ImageView iv = new ImageView(endImg);
-        // reduce size to 80% of window width, preserve ratio
-        iv.setFitWidth(primaryStage.getWidth() * 0.8);
+        ImageView iv = new ImageView(new Image(
+                getClass().getResourceAsStream(path)
+        ));
         iv.setPreserveRatio(true);
+        iv.setFitWidth(primaryStage.getWidth()*0.8);
 
-        Button quit = new Button("Quit");
-        quit.setOnAction(e -> Platform.exit());
+        ImageView quitBtn = new ImageView(quitImg);
+        quitBtn.setCursor(Cursor.HAND);
+        quitBtn.setFitWidth(200);
+        quitBtn.setPreserveRatio(true);
+        quitBtn.setOnMouseClicked(e -> Platform.exit());
 
-        VBox root = new VBox(20, iv, quit);
+        VBox root = new VBox(20, iv, quitBtn);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(50));
         root.setBackground(new Background(new BackgroundImage(
@@ -249,19 +282,6 @@ public class Client extends Application {
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void sendChat() {
-        String msg = chatInput.getText().trim();
-        if (!msg.isEmpty()) {
-            try {
-                out.writeObject(new ChatMessage(playerId, msg));
-                out.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            chatInput.clear();
         }
     }
 
