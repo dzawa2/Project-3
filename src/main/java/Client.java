@@ -115,6 +115,9 @@ public class Client extends Application {
         grid.setVgap(20);
         grid.setPadding(new Insets(30));
         grid.setAlignment(Pos.CENTER);
+        ImageView currentPlanetView = new ImageView(new Image(getClass().getResourceAsStream(myPlanetPath)));
+        currentPlanetView.setFitWidth(100);
+        currentPlanetView.setPreserveRatio(true);
 
         int col = 0, row = 0;
         for (var entry : planets.entrySet()) {
@@ -138,6 +141,7 @@ public class Client extends Application {
             cell.setCursor(Cursor.HAND);
             cell.setOnMouseClicked(e -> {
                 myPlanetPath = iconPath;
+                currentPlanetView.setImage(new Image(getClass().getResourceAsStream(myPlanetPath)));
                 primaryStage.setScene(createMenuScene());
                 primaryStage.setTitle("Connect Four");
             });
@@ -158,7 +162,7 @@ public class Client extends Application {
             primaryStage.setTitle("Connect Four");
         });
 
-        VBox root = new VBox(20, grid, backBtn);
+        VBox root = new VBox(20, currentPlanetView,grid, backBtn);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
         root.setBackground(new Background(new BackgroundImage(
@@ -168,7 +172,7 @@ public class Client extends Application {
                 new BackgroundSize(1,1,true,true,false,true)
         )));
 
-        return new Scene(root, 700, 800);
+        return new Scene(root, 700, 700);
     }
 
     private Scene createGameScene() throws Exception {
