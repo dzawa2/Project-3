@@ -142,8 +142,6 @@ public class Client extends Application {
             cell.setOnMouseClicked(e -> {
                 myPlanetPath = iconPath;
                 currentPlanetView.setImage(new Image(getClass().getResourceAsStream(myPlanetPath)));
-                primaryStage.setScene(createMenuScene());
-                primaryStage.setTitle("Connect Four");
             });
 
             grid.add(cell, col, row);
