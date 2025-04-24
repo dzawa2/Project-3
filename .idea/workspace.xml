@@ -7,8 +7,6 @@
     <list default="true" id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="Changed project structure and made it handle many games at once">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/GameBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,22 +23,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "OdisMaxiumum"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;OdisMaxiumum&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/dzawa2/Project-3.git",
-    "accountId": "106eced4-5fbd-4517-b0d5-ffd1b5efb86e"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dzawa2/Project-3.git&quot;,
+    &quot;accountId&quot;: &quot;106eced4-5fbd-4517-b0d5-ffd1b5efb86e&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2wAIyIq1dYYBuAUMXHlprNXeDIu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -55,7 +53,9 @@
     "Maven.project3 [clean].executor": "Run",
     "Maven.server {exec:java}.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/farid/OneDrive/Documents/UIC/CS342/Project3",
     "node.js.detected.package.eslint": "true",
@@ -215,6 +215,7 @@
       <option name="presentableId" value="Default" />
       <updated>1745478209430</updated>
       <workItem from="1745478209438" duration="30862000" />
+      <workItem from="1745512333289" duration="2925000" />
     </task>
     <task id="LOCAL-00001" summary="Changed project structure and made it handle many games at once">
       <option name="closed" value="true" />
