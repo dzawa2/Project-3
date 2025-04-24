@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ChatMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GameBoard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GameEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/back.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/log-in.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/play.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/quit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/select-player.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/sign-up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/MAIN-TITLE.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/earth-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/earth.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/galaxy.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/jupiter-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/jupiter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mars-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mars.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mercury-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mercury.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/neptune-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/neptune.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/saturn-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/saturn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/uranus-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/uranus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/venus-title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/venus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/win-lose/lose.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/win-lose/win.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "OdisMaxiumum"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/dzawa2/Project-3.git",
+    "accountId": "106eced4-5fbd-4517-b0d5-ffd1b5efb86e"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2wAIyIq1dYYBuAUMXHlprNXeDIu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Client.executor": "Run",
+    "Application.Server.executor": "Run",
+    "Maven.client {exec:java}.executor": "Run",
+    "Maven.project3 [clean,compile].executor": "Run",
+    "Maven.project3 [clean].executor": "Run",
+    "Maven.server {exec:java}.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/farid/OneDrive/Documents/UIC/CS342/Project3",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Maven.client {exec:java}">
+    <configuration name="client {exec:java}" type="MavenRunConfiguration" factoryName="Maven" singleton="false">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/client" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="project3 [clean]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="project3 [clean,compile]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="server {exec:java}" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/server" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Maven.project3 [clean,compile]" />
+      <item itemvalue="Maven.project3 [clean]" />
+      <item itemvalue="Maven.server {exec:java}" />
+      <item itemvalue="Maven.client {exec:java}" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="" />
+      <created>1745478209430</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745478209430</updated>
+      <workItem from="1745478209438" duration="24689000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
