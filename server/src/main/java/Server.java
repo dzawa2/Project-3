@@ -160,6 +160,7 @@ public class Server {
                             case WIN:
                                 sendOpponent(this.opponent, ge);
                                 sendOpponent(this, ge);
+                                System.out.println("Player " + ge.getWinningPlayer() + " has won!");
                                 currentGames.remove(findSession(this));
                                 break;
                         }

@@ -4,6 +4,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Circle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.control.Label;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -12,13 +16,18 @@ public class GameBoard {
     private static final int ROWS = 6, COLS = 7;
     private final StackPane root = new StackPane();
     private final GridPane grid = new GridPane();
+    private final BorderPane layoutPane = new BorderPane();
 
     // 0 = empty, 1 = PLAYER1, 2 = PLAYER2
     private final int[][] board = new int[ROWS][COLS];
 
+    VBox leftBox;
     private final Circle[][] imageCircles = new Circle[ROWS][COLS];
     private final Circle[][] overlayCircles = new Circle[ROWS][COLS];
-
+    private final Circle turnIndicator;
+    private Label timerLabel;
+    private Timeline timer;
+    private int timeLeft = 30;
     private boolean myTurn;
     private boolean gameOver = false;
 
@@ -38,8 +47,16 @@ public class GameBoard {
         this.currentPlayer = player1;
         this.myTurn = myUsername.equals(player1);
 
+        turnIndicator = new Circle(40); // radius
+
         this.player1Img = new Image(getClass().getResourceAsStream(player1ImgPath));
         this.player2Img = new Image(getClass().getResourceAsStream(player2ImgPath));
+
+        updateTurnIndicator();
+
+        timerLabel = new Label("Time left: 0s");
+        timerLabel.setStyle("-fx-background-color: white; -fx-font-weight: bold");
+        setupTimer();
 
         this.moveSender = moveSender;
 
@@ -48,7 +65,6 @@ public class GameBoard {
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(5);
         grid.setVgap(5);
-        System.out.println("Player 1: " + player1 + ", Player 2: " + player2);
         for (int c = 0; c < COLS; c++) {
             VBox colBox = new VBox();
             colBox.setAlignment(Pos.CENTER);
@@ -56,7 +72,6 @@ public class GameBoard {
             colBox.setOnMouseClicked(e -> {
                 if (!gameOver) {
                     try {
-                        System.out.println("board clicked");
                         processMove(myUsername,col,myUsername.equals(player1) ? 1 : 2);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
@@ -81,13 +96,30 @@ public class GameBoard {
             grid.add(colBox, c, 0);
         }
 
-        root.getChildren().add(grid);
+        leftBox = new VBox(10,timerLabel,turnIndicator);
+        leftBox.setAlignment(Pos.CENTER);
+
+        layoutPane.setLeft(leftBox);
+        layoutPane.setCenter(grid);
+
+        root.getChildren().add(layoutPane);
     }
 
     public StackPane getRoot () {
         return root;
     }
+    public VBox getLeftBox () {
+        return leftBox;
+    }
 
+    private void updateTurnIndicator() {
+        ImagePattern pattern = currentPlayer.equals(player1) ? new ImagePattern(player1Img) : new ImagePattern(player2Img);
+        Color tint = currentPlayer.equals(player1) ? TINT_P1 : TINT_P2;
+
+        turnIndicator.setFill(pattern);
+        turnIndicator.setStroke(tint);
+        turnIndicator.setStrokeWidth(4);
+    }
     /**
      * Place a piece: your planet for your moves, opponent's for theirs,
      * tinted red if PLAYER1, blue if PLAYER2.
@@ -104,6 +136,8 @@ public class GameBoard {
                 if (!gameOver) {
                     currentPlayer = movingPlayer.equals(player1) ? player2 : player1;
                 }
+                updateTurnIndicator();
+                onYourTurnStart();
                 break;
             }
         }
@@ -116,12 +150,11 @@ public class GameBoard {
         if (row < 0) return; // full
 
         board[row][column] = playerNum;
-        String name = playerNum == 1 ? player1 : player2;
         boolean win = checkWin(row, column, playerNum);
 
         GameEvent ev;
         if (win) {
-            ev = new GameEvent(GameEvent.Type.WIN, name);
+            ev = new GameEvent(GameEvent.Type.WIN, playerName);
         } else {
             ev = new GameEvent(GameEvent.Type.MOVE, column, playerName);
             placePiece(playerName, column);
@@ -155,4 +188,35 @@ public class GameBoard {
         gameOver = true;
         // … your existing popup or scene swap …
     }
+
+    private void setupTimer() {
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerLabel.setText("Time left: " + timeLeft + "s");
+                if (timeLeft <= 5) {
+                    timerLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                } else {
+                    timerLabel.setStyle("-fx-text-fill: black;");
+                }
+            } else {
+                timer.stop();
+                timerLabel.setText("Time's up!");
+                GameEvent forfeit = new GameEvent(GameEvent.Type.WIN, myUsername.equals(player1) ? player2 : player1);
+                moveSender.accept(forfeit);
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+    }
+    public void onYourTurnStart() {
+        timerLabel.setText("Time left: " + timeLeft + "s");
+        timer.play();
+    }
+
+    public void onYourTurnEnd() {
+        timeLeft += 30;
+
+        timer.pause();
+    }
 }
+

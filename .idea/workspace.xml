@@ -4,46 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ChatMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GameBoard.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GameEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/back.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/log-in.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/play.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/quit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/select-player.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/sign-up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/buttons/x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/MAIN-TITLE.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/earth-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/earth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/galaxy.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/jupiter-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/jupiter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mars-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mars.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mercury-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/mercury.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/neptune-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/neptune.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/saturn-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/saturn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/uranus-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/uranus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/venus-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/planets/venus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/win-lose/lose.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/win-lose/win.png" beforeDir="false" />
+    <list default="true" id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="Changed project structure and made it handle many games at once">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -249,11 +214,43 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1745478209430</updated>
-      <workItem from="1745478209438" duration="24689000" />
+      <workItem from="1745478209438" duration="30862000" />
     </task>
+    <task id="LOCAL-00001" summary="Changed project structure and made it handle many games at once">
+      <option name="closed" value="true" />
+      <created>1745503671746</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745503671746</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changed project structure and made it handle many games at once">
+      <option name="closed" value="true" />
+      <created>1745503764900</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745503764900</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changed project structure and made it handle many games at once" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed project structure and made it handle many games at once" />
   </component>
 </project>

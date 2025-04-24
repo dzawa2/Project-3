@@ -269,10 +269,14 @@ public class Client extends Application {
         if(startInfo.getPlayerId() == 1){ //Your player1
             board = new GameBoard(playerName,playerName,startInfo.getOpponent(),myPlanetPath,startInfo.getPlanetPath(),this::sendMove);
             playerId = 1;
+            primaryStage.setTitle("Connect Four: " + playerName + " vs " + startInfo.getOpponent());
+
         }
         else { //Your player2
             board = new GameBoard(playerName,startInfo.getOpponent(),playerName, startInfo.getPlanetPath(), myPlanetPath,this::sendMove);
             playerId = 2;
+            primaryStage.setTitle("Connect Four: " + startInfo.getOpponent() + " vs " + playerName);
+
         }
 
         chatList = new ListView<>();
@@ -298,6 +302,7 @@ public class Client extends Application {
         HBox chatRow = new HBox(10, chatInput);
         HBox.setHgrow(chatInput, Priority.ALWAYS);
         chatRow.setPadding(new Insets(10));
+        chatRow.setStyle("-fx-background-color: rgba(0, 0, 0, 0.4); -fx-text-fill: white;");
 
         VBox chatBox = new VBox(5, chatList, chatRow);
         chatBox.setPrefHeight(225);
@@ -323,7 +328,6 @@ public class Client extends Application {
             }
         }).start();
 
-        primaryStage.setTitle("Connect Four: " + playerName + " vs " + startInfo.getOpponent());
         return new Scene(root, 700, 800);
     }
 
@@ -332,9 +336,12 @@ public class Client extends Application {
             if (obj instanceof GameEvent ge) {
                 switch (ge.getType()) {
 
-                    case MOVE -> board.placePiece(ge.getMovingPlayer(), ge.getColumn());
+                    case MOVE -> {
+                        board.placePiece(ge.getMovingPlayer(), ge.getColumn());
+                        board.onYourTurnEnd();
+                    }
                     case WIN -> {
-                        boolean iWon = ge.getWinningPlayer().equals(playerId);
+                        boolean iWon = ge.getWinningPlayer().equals(playerName);
                         primaryStage.setScene(createEndScene(iWon));
                     }
                 }
@@ -342,7 +349,6 @@ public class Client extends Application {
                 writeToChat(cm.getSender(), cm.getMessage());
             }
         }
-
 
 
     private Scene createEndScene(boolean won) {
@@ -355,7 +361,7 @@ public class Client extends Application {
         quitBtn.setCursor(Cursor.HAND);
         quitBtn.setFitWidth(200);
         quitBtn.setPreserveRatio(true);
-        quitBtn.setOnMouseClicked(e -> Platform.exit());
+        quitBtn.setOnMouseClicked(e -> primaryStage.setScene(createMenuScene()));
 
         VBox root = new VBox(20, iv, quitBtn);
         root.setAlignment(Pos.CENTER);
