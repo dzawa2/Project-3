@@ -1,6 +1,8 @@
 
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Circle;
@@ -48,14 +50,23 @@ public class GameBoard {
         this.myTurn = myUsername.equals(player1);
 
         turnIndicator = new Circle(40); // radius
-
         this.player1Img = new Image(getClass().getResourceAsStream(player1ImgPath));
         this.player2Img = new Image(getClass().getResourceAsStream(player2ImgPath));
 
         updateTurnIndicator();
 
+        ImageView surrenderX = new ImageView(new Image(getClass().getResourceAsStream("/buttons/x.png")));
+        surrenderX.setCursor(Cursor.HAND);
+        surrenderX.setPreserveRatio(true);
+        surrenderX.setFitWidth(60);
+        surrenderX.setOnMouseClicked(event -> {
+            GameEvent forfeit = new GameEvent(GameEvent.Type.WIN, myUsername.equals(player1) ? player2: player1);
+            moveSender.accept(forfeit);
+        });
+
+
         timerLabel = new Label("Time left: 0s");
-        timerLabel.setStyle("-fx-background-color: white; -fx-font-weight: bold");
+        timerLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16");
         setupTimer();
 
         this.moveSender = moveSender;
@@ -96,7 +107,7 @@ public class GameBoard {
             grid.add(colBox, c, 0);
         }
 
-        leftBox = new VBox(10,timerLabel,turnIndicator);
+        leftBox = new VBox(10,surrenderX,timerLabel,turnIndicator);
         leftBox.setAlignment(Pos.CENTER);
 
         layoutPane.setLeft(leftBox);
@@ -107,9 +118,6 @@ public class GameBoard {
 
     public StackPane getRoot () {
         return root;
-    }
-    public VBox getLeftBox () {
-        return leftBox;
     }
 
     private void updateTurnIndicator() {

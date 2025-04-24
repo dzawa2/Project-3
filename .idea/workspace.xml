@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="Changed project structure and made it handle many games at once">
+    <list default="true" id="f0d70af0-e01e-4a2b-a6a1-368f1ba466e6" name="Changes" comment="Added a proper login system using a local database">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,22 +27,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "OdisMaxiumum"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;OdisMaxiumum&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/dzawa2/Project-3.git",
-    "accountId": "106eced4-5fbd-4517-b0d5-ffd1b5efb86e"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dzawa2/Project-3.git&quot;,
+    &quot;accountId&quot;: &quot;106eced4-5fbd-4517-b0d5-ffd1b5efb86e&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2wAIyIq1dYYBuAUMXHlprNXeDIu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -55,7 +57,9 @@
     "Maven.project3 [clean].executor": "Run",
     "Maven.server {exec:java}.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/farid/OneDrive/Documents/UIC/CS342/Project3",
     "node.js.detected.package.eslint": "true",
@@ -66,10 +70,11 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Maven.client {exec:java}">
+  <component name="RunManager" selected="Maven.project3 [clean]">
     <configuration name="client {exec:java}" type="MavenRunConfiguration" factoryName="Maven" singleton="false">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -214,7 +219,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1745478209430</updated>
-      <workItem from="1745478209438" duration="30862000" />
+      <workItem from="1745478209438" duration="36248000" />
+      <workItem from="1745516687765" duration="5045000" />
     </task>
     <task id="LOCAL-00001" summary="Changed project structure and made it handle many games at once">
       <option name="closed" value="true" />
@@ -232,7 +238,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745503764900</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Changed project structure and made it handle many games at once">
+      <option name="closed" value="true" />
+      <created>1745510973238</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745510973238</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,7 +264,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="added icon for turn player and timer" />
     <MESSAGE value="Changed project structure and made it handle many games at once" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed project structure and made it handle many games at once" />
+    <MESSAGE value="Added a proper login system using a local database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a proper login system using a local database" />
   </component>
 </project>

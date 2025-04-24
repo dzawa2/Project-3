@@ -69,18 +69,38 @@ public class Server {
 
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-                String username = (String) in.readObject(); // Assuming the client sends username as first line
+                String status = (String) in.readObject();
+                String username = (String) in.readObject();
+                String password = (String) in.readObject();
+
                 // Now create the ClientHandler with the username
                 ClientHandler handler = new ClientHandler(clientSocket, 0, username, out, in);
-                if (clients.containsKey(username)) {
-                    System.out.println("Client " + username + " is already in use!");
-                    out.writeObject("INVALID");
+
+                if (clients.containsKey(username)) { //check if name is already connected to Server
+                    System.out.println("Client " + username + " is already connected");
+                    out.writeObject("Username already in use");
+                    out.flush();
                     clientSocket.close();
-                } else {
-                    System.out.println("Client " + username + " connected!");
-                    out.writeObject("VALID");
-                    clients.put(username, handler);
-                    new Thread(handler).start(); // Run handler in new thread
+                } else {//check the database and interact add/log-in client
+                    String result;
+                    if(status.equalsIgnoreCase("Login")) {
+                        result = Database.loginUser(username, password);
+                        System.out.println(username + " logged in!");
+                    }
+                    else {
+                        result = Database.insertUser(username, password);
+                        System.out.println(username + " signed up!");
+                    }
+                    if(result.equals("SUCCESS")){
+                        out.writeObject(result);
+                        out.flush();
+                        clients.put(username, handler);
+                        new Thread(handler).start();
+                    }
+                    else{
+                        out.writeObject(result);
+                        out.flush();
+                    }
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -91,6 +111,7 @@ public class Server {
     public void start() {
 
         try {
+            Database.connect();
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("Server started...");
             System.out.println("Waiting for clients...");
@@ -162,6 +183,7 @@ public class Server {
                                 sendOpponent(this, ge);
                                 System.out.println("Player " + ge.getWinningPlayer() + " has won!");
                                 currentGames.remove(findSession(this));
+                                this.setOpponent(null);
                                 break;
                         }
                     } else if (obj instanceof ChatMessage cm) {
@@ -170,17 +192,28 @@ public class Server {
                 }
             } catch (SocketException e) {
                 System.out.println("Client " + playerName + " disconnected (socket closed).");
+
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Client " + playerName + " disconnected unexpectedly.");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
+                    if (opponent != null) { //opponent disconnected, count it as surrender
+                        GameEvent forfeit = new GameEvent(GameEvent.Type.WIN, opponent.playerName);
+                        try {
+                            opponent.send(forfeit);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
                     if (in != null) in.close();
                     if (out != null) out.close();
+                    clients.remove(playerName);
                     sock.close();
                     System.out.println("Disconnected and closed all resources for player " + playerName);
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
             }
